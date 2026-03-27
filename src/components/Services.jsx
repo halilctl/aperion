@@ -49,7 +49,7 @@ export default function Services() {
           <div 
             className={styles.cardBg} 
             style={{ 
-              backgroundImage: `url('/bg1.png')`,
+              backgroundImage: `url('${import.meta.env.BASE_URL}bg1.png')`,
               animationDelay: `${index * -4.5}s`
             }} 
           />
