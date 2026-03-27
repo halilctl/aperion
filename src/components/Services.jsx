@@ -6,37 +6,30 @@ const services = [
   {
     title: 'SEO & Analitik',
     desc: 'Organik görünürlüğünüzü artırarak hedef kitlenize doğal yollarla ulaşıyoruz. Teknik altyapıdan içerik stratejisine tam huni optimizasyonu.',
-    bg: '/bg1.png',
   },
   {
     title: 'UI/UX Tasarım',
     desc: 'Kullanıcı davranışlarını analiz ederek, dönüşüm odaklı ve estetik arayüzler tasarlıyoruz. Wireframe\'den nihai interaktif protipe.',
-    bg: '/bg2.png',
   },
   {
     title: 'Web Tasarım',
     desc: 'Markanızı dijital dünyada en iyi şekilde temsil eden, tamamen özgün, çarpıcı ve modern web siteleri kurguluyoruz.',
-    bg: '/bg3.png',
   },
   {
     title: 'Web Yazılım',
     desc: 'Ölçeklenebilir, güvenli ve yüksek performanslı web uygulamaları geliştiriyoruz. En modern teknoloji stack\'leri ile.',
-    bg: '/bg1.png',
   },
   {
     title: 'Dijital Pazarlama',
     desc: 'Hedef kitlenize ulaşmak için veriye dayalı kampanyalar yönetiyoruz. Performans odaklı algoritmik büyüme stratejileri.',
-    bg: '/bg2.png',
   },
   {
     title: 'Prodüksiyon',
     desc: 'Markanızın sesini ve görüntüsünü en yüksek kalitede sunuyoruz. Kreatif video prodüksiyon, kurgu ve post-prodüksiyon süreçleri.',
-    bg: '/bg3.png',
   },
   {
     title: 'Fotoğraf Çekimi',
     desc: 'Ürün, mekan ve kurumsal fotoğraf çekimleri ile markanızı görsel dünyada en güçlü, en net şekilde konumlandırıyoruz.',
-    bg: '/bg1.png',
   },
 ]
 
@@ -46,12 +39,13 @@ export default function Services() {
       <div key={index} className={styles.cardWrapper}>
         <div className={styles.cardBorder} />
         <div className={styles.card}>
-          <div 
-            className={styles.cardBg} 
-            style={{ 
-              backgroundImage: `url('${import.meta.env.BASE_URL}bg1.png')`,
-              animationDelay: `${index * -4.5}s`
-            }} 
+          <img 
+            src={`${import.meta.env.BASE_URL}bg1.webp`}
+            alt={`${svc.title} Arkaplan`}
+            className={styles.cardBg}
+            loading={index === 0 ? "eager" : "lazy"}
+            fetchPriority={index === 0 ? "high" : "auto"}
+            style={{ animationDelay: `${index * -4.5}s` }} 
           />
           <div className={styles.cardOverlay} />
           <div className={styles.cardContent}>
