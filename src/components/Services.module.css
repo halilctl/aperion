@@ -68,56 +68,69 @@
 
 .card {
   position: relative;
-  background: var(--c-bg); /* Use page bg to sink in */
+  background: var(--c-bg);
   border-radius: 19px;
   display: flex;
   flex-direction: column;
   z-index: 1;
   min-height: 280px;
-  overflow: hidden; /* Important for background image containment */
-  isolation: isolate; /* Forces a new stacking context for Google App Webview rendering bug */
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+  /* Use clip-path instead of overflow:hidden — avoids Android Chrome GPU layer glitch */
+  clip-path: inset(0 round 19px);
+  -webkit-clip-path: inset(0 round 19px);
 }
 
 .cardBg {
   position: absolute;
-  inset: -60px; /* Extended to prevent showing background edges during rotation and panning */
+  inset: 0;
+  border-radius: 19px;
   background-size: 135%;
   background-position: left center;
   z-index: 0;
-  opacity: 0.95; /* Brightened slightly for the beautiful visual */
+  opacity: 0.95;
+  /* Only use scale+translate — rotate() causes Android Chrome GPU layer glitch */
   animation: dynamicWave 24s ease-in-out infinite alternate;
-  will-change: transform, background-position;
+  will-change: background-position;
 }
 
 @keyframes dynamicWave {
   0% {
     background-position: 0% 30%;
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
   }
   50% {
     background-position: 100% 70%;
-    transform: scale(1.06) rotate(1.5deg);
+    transform: scale(1.06);
   }
   100% {
     background-position: 30% 100%;
-    transform: scale(1.02) rotate(-1deg);
+    transform: scale(1.04);
   }
 }
 
 .cardOverlay {
   position: absolute;
   inset: 0;
+  border-radius: 19px;
   z-index: 1;
-  background: linear-gradient(to top, rgba(18, 18, 18, 0.98) 0%, rgba(18, 18, 18, 0.88) 35%, rgba(18, 18, 18, 0.2) 100%);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  /* Heavier gradient replaces backdrop-filter — backdrop-filter causes repaints on Android Chrome WebView */
+  background: linear-gradient(
+    to top,
+    rgba(18, 18, 18, 0.97) 0%,
+    rgba(18, 18, 18, 0.82) 40%,
+    rgba(18, 18, 18, 0.25) 75%,
+    rgba(18, 18, 18, 0.08) 100%
+  );
   pointer-events: none;
 }
 
 .cardWrapper:hover .cardOverlay {
-  background: linear-gradient(to top, rgba(18, 18, 18, 0.96) 0%, rgba(18, 18, 18, 0.82) 35%, rgba(18, 18, 18, 0.1) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(18, 18, 18, 0.95) 0%,
+    rgba(18, 18, 18, 0.75) 40%,
+    rgba(18, 18, 18, 0.15) 75%,
+    rgba(18, 18, 18, 0.02) 100%
+  );
 }
 
 .cardContent {

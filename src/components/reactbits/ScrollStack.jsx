@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import styles from './ScrollStack.module.css';
 
@@ -10,7 +10,6 @@ const Card = ({ item, index, total, scrollYProgress }) => {
   const startRange = index / total;
   const endRange = startRange + (1 / total);
 
-  // Dynamic zoom out when the next card overtakes it
   const scale = useTransform(scrollYProgress, [startRange, endRange], [1, targetScale]);
 
   return (
@@ -32,18 +31,26 @@ const Card = ({ item, index, total, scrollYProgress }) => {
 
 export default function ScrollStack({ items }) {
   const containerRef = useRef(null);
-  
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Detect touch/mobile — Android Chrome WebView glitches under spring + backdrop-filter
+    setIsMobile('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end end"]
   });
 
-  // Apply spring physics for buttery smooth scaling/overlapping
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 150,
     damping: 20,
     mass: 0.5
   });
+
+  // Use raw scroll on touch devices to prevent composite layer conflicts
+  const activeProgress = isMobile ? scrollYProgress : smoothProgress;
 
   return (
     <div ref={containerRef} className={styles.stackContainer}>
@@ -54,7 +61,7 @@ export default function ScrollStack({ items }) {
             item={item}
             index={index}
             total={items.length}
-            scrollYProgress={smoothProgress}
+            scrollYProgress={activeProgress}
           />
         ))}
       </div>
