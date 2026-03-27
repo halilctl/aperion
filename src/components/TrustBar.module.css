@@ -1,0 +1,59 @@
+.section {
+  padding: clamp(60px, 8vw, 100px) 0;
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border: 1px solid var(--c-border);
+  background: var(--c-border);
+}
+
+.stat {
+  background: var(--c-bg);
+  padding: clamp(36px, 5vw, 60px) clamp(24px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.stat:hover {
+  background: var(--c-card);
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--c-text);
+  display: flex;
+  align-items: flex-start;
+}
+
+.suffix {
+  font-size: 0.5em;
+  margin-top: 0.2em;
+  color: var(--c-accent);
+  font-family: var(--font-mono);
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+}

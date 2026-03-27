@@ -1,0 +1,149 @@
+.section {
+  padding: var(--section-pad);
+  position: relative;
+  background: linear-gradient(to bottom, var(--c-bg), rgba(18, 18, 18, 0.4));
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 80px;
+  text-align: center;
+  align-items: center;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--c-text);
+}
+
+.title em {
+  font-style: italic;
+  color: var(--c-accent);
+}
+
+.cardWrapper {
+  position: relative;
+  border-radius: 20px;
+  background: var(--c-card);
+  padding: 1px; /* border thickness */
+  overflow: hidden;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  transition: transform 0.4s var(--ease-out-expo);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5); /* huge drop shadow so it visually stacks powerfully */
+}
+
+.cardWrapper:hover {
+  transform: translateY(-8px);
+}
+
+/* Conic gradient animated border */
+.cardBorder {
+  position: absolute;
+  inset: -100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 280deg,
+    var(--c-accent) 360deg
+  );
+  animation: rotateGlow 5s linear infinite;
+  opacity: 0.2; /* Show slightly always */
+  transition: opacity 0.4s ease;
+}
+
+.cardWrapper:hover .cardBorder {
+  opacity: 1;
+}
+
+@keyframes rotateGlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.card {
+  position: relative;
+  background: var(--c-bg); /* Use page bg to sink in */
+  border-radius: 19px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  min-height: 280px;
+  overflow: hidden; /* Important for background image containment */
+}
+
+.cardBg {
+  position: absolute;
+  inset: -60px; /* Extended to prevent showing background edges during rotation and panning */
+  background-size: 135%;
+  background-position: left center;
+  z-index: 0;
+  opacity: 0.95; /* Brightened slightly for the beautiful visual */
+  animation: dynamicWave 24s ease-in-out infinite alternate;
+  will-change: transform, background-position;
+}
+
+@keyframes dynamicWave {
+  0% {
+    background-position: 0% 30%;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    background-position: 100% 70%;
+    transform: scale(1.06) rotate(1.5deg);
+  }
+  100% {
+    background-position: 30% 100%;
+    transform: scale(1.02) rotate(-1deg);
+  }
+}
+
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(18, 18, 18, 0.98) 0%, rgba(18, 18, 18, 0.88) 35%, rgba(18, 18, 18, 0.2) 100%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.cardWrapper:hover .cardOverlay {
+  background: linear-gradient(to top, rgba(18, 18, 18, 0.96) 0%, rgba(18, 18, 18, 0.82) 35%, rgba(18, 18, 18, 0.1) 100%);
+}
+
+.cardContent {
+  position: relative;
+  z-index: 2;
+  padding: 48px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.svcTitle {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--c-text);
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+.svcDesc {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: var(--c-text-muted);
+  line-height: 1.8;
+  margin-top: auto;
+}
+
+@media (max-width: 600px) {
+  .cardContent { padding: 32px 24px; }
+  .svcTitle { font-size: 1.6rem; }
+}
