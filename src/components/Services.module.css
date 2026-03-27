@@ -159,6 +159,26 @@
   margin-top: auto;
 }
 
+/* Touch devices (phones/tablets) — kill animation to prevent any GPU repaint issue */
+@media (hover: none) and (pointer: coarse) {
+  .cardBg {
+    animation: none;
+    will-change: auto;
+    transform: none;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .cardOverlay {
+    background: linear-gradient(
+      to top,
+      rgba(18, 18, 18, 0.97) 0%,
+      rgba(18, 18, 18, 0.85) 50%,
+      rgba(18, 18, 18, 0.3) 100%
+    );
+  }
+}
+
 @media (max-width: 768px) {
   .cardContent { padding: 32px 24px; }
   .svcTitle { font-size: 1.6rem; }

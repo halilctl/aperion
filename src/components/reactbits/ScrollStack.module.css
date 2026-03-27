@@ -11,19 +11,25 @@
 }
 
 .cardContainer {
-  margin-bottom: 18vh; /* Reduces extreme scrolling per card while keeping spacing tight and natural */
-  transform: translateZ(0); /* Forces safe hardware acceleration rendering */
+  margin-bottom: 18vh;
+  transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
 .cardContainer:last-child {
-  margin-bottom: 5vh; 
+  margin-bottom: 5vh;
 }
 
-@media (max-width: 768px) {
-  .cardContainer {
-    margin-bottom: 8vh; /* Reduce scrolling distance on mobile devices */
-  }
+/* Mobile: plain stacked list, no sticky, no JS transform, no glitch */
+.mobileContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.mobileCard {
+  width: 100%;
 }
