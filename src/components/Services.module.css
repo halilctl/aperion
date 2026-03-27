@@ -143,7 +143,19 @@
   margin-top: auto;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .cardBg {
+    animation: none;
+    will-change: auto;
+    inset: 0;
+  }
+  
+  .cardOverlay {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(to top, rgba(18, 18, 18, 0.98) 0%, rgba(18, 18, 18, 0.92) 45%, rgba(18, 18, 18, 0.45) 100%);
+  }
+  
   .cardContent { padding: 32px 24px; }
   .svcTitle { font-size: 1.6rem; }
 }

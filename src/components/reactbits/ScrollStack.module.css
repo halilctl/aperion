@@ -12,9 +12,18 @@
 
 .cardContainer {
   margin-bottom: 18vh; /* Reduces extreme scrolling per card while keeping spacing tight and natural */
-  will-change: transform;
+  transform: translateZ(0); /* Forces safe hardware acceleration rendering */
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .cardContainer:last-child {
   margin-bottom: 5vh; 
+}
+
+@media (max-width: 768px) {
+  .cardContainer {
+    margin-bottom: 8vh; /* Reduce scrolling distance on mobile devices */
+  }
 }
