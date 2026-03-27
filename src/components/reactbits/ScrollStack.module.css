@@ -3,33 +3,53 @@
   width: 100%;
 }
 
-.stackWrapper {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
+/* ─── CSS Scroll-Driven Animation approach ─────────────────────────────────
+   Runs entirely on the GPU compositor thread — zero JS involvement.
+   Supported: Chrome 115+, Android Chrome 115+, Safari 18+, Edge 115+
+   ────────────────────────────────────────────────────────────────────────── */
 .cardContainer {
-  margin-bottom: 18vh;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  position: sticky;
+  width: 100%;
+  margin-bottom: 20vh;
+  transform-origin: top center;
+
+  /* Each card scales down as it exits the visible scroll area */
+  animation: cardStackScale linear both;
+  animation-timeline: view();
+  /* Start scaling when the card starts exiting the top, finish at 40% exit */
+  animation-range: exit 0% exit 40%;
 }
 
 .cardContainer:last-child {
   margin-bottom: 5vh;
 }
 
-/* Mobile: plain stacked list, no sticky, no JS transform, no glitch */
-.mobileContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
+@keyframes cardStackScale {
+  to {
+    scale: var(--target-scale, 0.95);
+  }
 }
 
-.mobileCard {
-  width: 100%;
+/* ─── Fallback for browsers without Scroll-Driven Animations support ────────
+   (Safari < 18, Firefox < 130, very old Chrome)
+   Falls back to a clean vertical card list — no animation, no glitch.
+   ────────────────────────────────────────────────────────────────────────── */
+@supports not (animation-timeline: view()) {
+  .stackContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cardContainer {
+    position: static;
+    margin-bottom: 0;
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardContainer {
+    margin-bottom: 12vh;
+  }
 }
