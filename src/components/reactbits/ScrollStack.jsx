@@ -30,6 +30,9 @@ const Card = ({ item, index, total, scrollYProgress }) => {
   );
 };
 
+// Detect Android once at module level (safe: navigator exists in browser)
+const isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
+
 export default function ScrollStack({ items }) {
   const containerRef = useRef(null);
   
@@ -38,12 +41,16 @@ export default function ScrollStack({ items }) {
     offset: ["start end", "end end"]
   });
 
-  // Apply spring physics for buttery smooth scaling/overlapping
-  const smoothProgress = useSpring(scrollYProgress, {
+  // Always call useSpring (Rules of Hooks) — but only USE it on non-Android.
+  // On Android the spring physics re-calculate every frame on the JS thread,
+  // causing jank. Raw scrollYProgress is compositor-driven and stutter-free.
+  const springProgress = useSpring(scrollYProgress, {
     stiffness: 150,
     damping: 20,
     mass: 0.5
   });
+
+  const smoothProgress = isAndroid ? scrollYProgress : springProgress;
 
   return (
     <div ref={containerRef} className={styles.stackContainer}>

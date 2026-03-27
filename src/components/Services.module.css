@@ -147,3 +147,46 @@
   .cardContent { padding: 32px 24px; }
   .svcTitle { font-size: 1.6rem; }
 }
+
+/* ============================================================
+   ANDROID OPTIMIZATIONS
+   Applied only when <html class="is-android"> is set by JS.
+   iOS keeps all premium effects untouched.
+   ============================================================ */
+
+/* 1. Remove backdrop-filter — biggest GPU killer on Android Chrome */
+:global(.is-android) .cardOverlay {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: linear-gradient(to top,
+    rgba(18, 18, 18, 0.97) 0%,
+    rgba(18, 18, 18, 0.90) 35%,
+    rgba(18, 18, 18, 0.55) 100%
+  );
+}
+
+/* 2. Stop the rotating conic-gradient border — 7 spinning layers kills scroll FPS */
+:global(.is-android) .cardBorder {
+  animation-play-state: paused;
+  opacity: 0.12;
+}
+
+/* 3. Simplify cardBg animation: remove scale + rotate,
+      keep only background-position (still atmospheric, far cheaper) */
+:global(.is-android) .cardBg {
+  animation-name: dynamicWaveAndroid;
+  animation-duration: 30s;
+  will-change: auto; /* free the compositor layer, reduce memory pressure */
+}
+
+@keyframes dynamicWaveAndroid {
+  0%   { background-position: 0% 30%; }
+  50%  { background-position: 100% 70%; }
+  100% { background-position: 30% 100%; }
+}
+
+/* 4. Free will-change on the card wrapper — not needed without spring transform */
+:global(.is-android) .cardWrapper {
+  will-change: auto;
+}
+

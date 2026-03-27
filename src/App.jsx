@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import TrustBar from './components/TrustBar'
@@ -8,6 +9,12 @@ import CTABanner from './components/CTABanner'
 import Footer from './components/Footer'
 
 export default function App() {
+  useEffect(() => {
+    if (/Android/i.test(navigator.userAgent)) {
+      document.documentElement.classList.add('is-android')
+    }
+  }, [])
+
   return (
     <>
       {/* Noise overlay for premium texture */}
